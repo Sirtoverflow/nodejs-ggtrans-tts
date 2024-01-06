@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    style.
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        form {
+            display: block;
+            margin-top: 0em;
+            margin-block-end: 0em;
+        }
+        input{
+            width: 300px;
+            padding: 50px;
+        }
+        input[type="text"]{
+            width: 500px;
+            padding: 50px;
+        }
+        audio{
+            margin-top : 50px;
+        }
+
+    body 
+        div 
+            form(action="/audiobase64" method="post")
+                input(type="text" id="textToSpeak" name="name" placeholder="Enter text to speak")
+                input(id="submitBTN" type="submit" value="Submit")
+            p#charCount Character count: 0
+            if audioUrl
+                audio(controls autoplay name="media" oncanplaythrough="this.oncanplaythrough = null; console.log('Audio can play through without interruption.');")
+                    source(src=audioUrl type='audio/mpeg')
+            else if audiobase64
+                audio(controls autoplay src=audiobase64)
+
+            else 
+                p No audio yet
+
+
+    script.
+        document.getElementById('textToSpeak').addEventListener('input', function() {
+           var charCount = this.value.length;
+            document.getElementById('charCount').textContent = 'Character count: ' + charCount;
+        });
